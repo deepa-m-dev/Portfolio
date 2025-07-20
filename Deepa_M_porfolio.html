@@ -1,0 +1,370 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deepa M | Portfolio</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: black;
+      color: white;
+      overflow-x: hidden;
+    }
+    canvas#bg {
+      position: fixed; top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: -10;
+    }
+    #cursor {
+      position: fixed; width: 20px; height: 20px;
+      background: #00fff7; border-radius: 50%;
+      pointer-events: none;
+      box-shadow: 0 0 10px #00fff7, 0 0 20px #00fff7;
+      mix-blend-mode: screen; z-index: 9999;
+      transform: translate(-50%, -50%);
+    }
+    header {
+      height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center;
+    }
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 4rem;
+      color: #00fff7;
+      text-shadow: 0 0 10px #00fff7, 0 0 20px #00fff7;
+      transition: color 0.3s, text-shadow 0.3s;
+    }
+    header h1:hover {
+      color: #ffffff;
+      text-shadow: 0 0 15px #ffffff, 0 0 30px #ffffff;
+    }
+
+    header h3 {
+      font-size: 2rem; margin-top: 10px;
+      color: #fff;
+      transition: color 0.3s, text-shadow 0.3s;
+    }
+    header h3 span {
+      color: #b74b4b;
+      transition: color 0.3s, text-shadow 0.3s;
+    }
+    header h3:hover span {
+      color: #00fff7;
+      text-shadow: 0 0 10px #00fff7, 0 0 20px #00fff7;
+    }
+
+    section {
+      padding: 60px 10%;
+      animation: fadeInUp 1s ease-in-out;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    h2.section-title {
+      font-size: 2rem;
+      font-family: 'Orbitron', sans-serif;
+      color: #00fff7;
+      text-shadow: 0 0 10px #00fff7;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid #00fff7;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 15px #00fff7;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      color: white;
+    }
+    .card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 0 40px #00fff7;
+    }
+
+    /* 🔥 NEW: Fancy text hover inside cards only */
+    .card:hover p,
+    .card:hover li,
+    .card:hover strong {
+      color: #00fff7;
+      text-shadow: 0 0 5px #00fff7, 0 0 15px #00fff7;
+      transition: all 0.3s ease;
+    }
+
+    .skills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+    .skill-badge {
+      border: 1px solid #00fff7;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-weight: 600;
+      text-shadow: 0 0 10px #00fff7;
+      box-shadow: 0 0 10px #00fff7;
+      transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+      animation: glow 2s infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00fff7; }
+      to   { text-shadow: 0 0 20px #00fff7, 0 0 30px #00fff7; }
+    }
+    .skill-badge:hover {
+      transform: scale(1.1) rotate(-2deg);
+      background: #00fff7;
+      color: black;
+      box-shadow: 0 0 20px #00fff7, 0 0 40px #00fff7;
+    }
+
+    form input, form textarea {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid #00fff7;
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    form input::placeholder, form textarea::placeholder {
+      color: #aaa;
+    }
+    form button {
+      background-color: #00fff7;
+      color: black;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+    }
+    form button:hover {
+      background-color: #00e6d2;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: #ccc;
+    }
+    .social-icons a {
+      color: #b74b4b;
+      font-size: 2rem;
+      margin: 0 10px;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .social-icons a:hover {
+      color: #fff;
+      transform: scale(1.2);
+    }
+    .article-text {
+  color: white !important;
+text-shadow: none !important;
+  transition: none !important;
+  pointer-events: none;
+  
+    }
+
+
+    @media (max-width: 768px) {
+      header h1 { font-size: 3rem; }
+      header h3 { font-size: 1.5rem; }
+      h2.section-title { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div id="cursor"></div>
+
+  <header>
+    <h1>Deepa M</h1>
+    <h3>I'm <span id="article" class="article-text"></span> <span id="typing-text"></span></h3>
+  </header>
+
+  <section>
+    <h2 class="section-title">About Me</h2>
+    <div class="card">
+      <p>Greetings, I'm Deepa M., a passionate BCA student<i>(CGPA: 9.18/10)</i> who believes that technology and creativity are two sides of the same coin. With a strong command of <b>Python, Java, and full-stack web development</b>, I build software not just to function—but to connect, simplify, and inspire.<br><br>
+
+My journey began in a Commerce classroom, where logic and numbers shaped my thinking<i>(scored 96% overall with 99 in Business Mathematics and centum in Accounts & Commerce).</i> Now, in the world of code, I apply that foundation to solve real-world problems with precision and purpose. From <b>creating apps like Notes, To-Do Lists, and Management Systems, to working on a full-fledged E-commerce site</b>—I turn ideas into interactive, user-friendly solutions.<br>I've also solved <b>50+ problems on LeetCode</b>, sharpening my priblem-solving mindset.
+<br><br>
+But beyond the code, I’m also a <b>poet and visual artist</b>. I write with emotion, draw with intention, and build with heart. Creativity fuels my development process, helping me think differently, design intuitively, and communicate effectively.
+<br><br>
+I’m an enthusiastic learner, a disciplined dreamer, and a proud self-starter. My goal? To grow into a versatile developer and <b>future AI innovator</b>—while staying grounded in empathy, creativity, and purpose.
+<br><br>
+I’m always open to new opportunities, learning experiences, and meaningful collaborations. Let’s connect and create something impactful!
+</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Skills</h2>
+    <div class="card">
+      <div class="skills-container">
+        <div class="skill-badge">Java</div>
+	<div class="skill-badge">Python</div>
+	<div class="skill-badge">C</div>
+	<div class="skill-badge">C++</div>
+        <div class="skill-badge">HTML</div>
+        <div class="skill-badge">CSS</div>
+        <div class="skill-badge">JavaScript</div>
+        <div class="skill-badge">React</div>
+	<div class="skill-badge">Bootstrap</div>
+        <div class="skill-badge">Spring Boot</div>
+        <div class="skill-badge">Flask</div>
+        <div class="skill-badge">SQL</div>
+        <div class="skill-badge">SQLite</div>
+        <div class="skill-badge">RDBMS</div>
+	<div class="skill-badge">Data Structures & Algorithms(DSA)</div> 
+        <div class="skill-badge">Operating Systems(OS)</div>
+	<div class="skill-badge">Object-Oriented Programming(OOP)</div>
+        <div class="skill-badge">Git & GitHub</div>
+	<div class="skill-badge">Agile</div>
+	<div class="skill-badge">SDLC</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">LeetCode & Achievements</h2>
+    <div class="card">
+      
+      <ul type="circle">
+	<li>Solved 50+ LeetCode problems, strengthening core algorithmic thinking and coding proficiency
+</li>
+        <li>Awarded 4 academic honors for scoring centum in Commerce & Accounts (12th) and Economics & Accounts (11th) </li>
+        <li>Ranked 1st in 12th grade, recognized with a prestigious school excellence award
+</li>
+        <li>Secured 3rd position in 1st-year BCA, earning a merit scholarship for academic distinction
+</li>
+	<li>Compered multiple school events, demonstrating strong communication, stage presence, and leadership</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Projects</h2>
+<div class="card">🎓 <strong>Student Management System</strong> A CRUD-based web application for managing student records, including adding, updating, viewing, and deleting student details. <br> <p><span class="fst-italic">&#128736;Technologies: </span> Java, Spring Boot, spring Data JPA, Thymeleaf, MySQL, Maven, HTML, CSS, Bootstrap</p></div>
+
+    <div class="card">📝 <strong>Notes App:</strong> A full-stack application to create, edit, and manage notes efficiently <br> <p> <span class="fst-italic">&#128736; Technologies: </span> Python, Flask, SQLite, HTML, CSS, JavaScript </p></div>
+    
+    <div class="card">✅ <strong>To-Do List App</strong>A React.js-based task management application that allows users to add, mark complete, and delete tasks. <br> <p> <span class="fst-italic">&#128736; Technologies: </span> React.js, JavaScript(ES6+), HTML5, CSS3 </p> </div>
+  </section>
+
+  <section id="contact">
+    <h2 class="section-title">Contact Me</h2>
+    <div class="card">
+
+	<form action="https://formsubmit.co/deepamurugan2112@gmail.com" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+
+	<input type="text" name="_honey" style="display:none">
+  
+ 	 <!-- Disable Captcha -->
+ 	 <input type="hidden" name="_captcha" value="false">
+  
+  	<!-- Redirect after success -->
+  	<!-- input type="hidden" name="_next" value="https://yourwebsite.com/thank-you.html" -->
+
+
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="social-icons">
+      <a href="https://www.linkedin.com/in/deepa-mofficial"><i class="fab fa-linkedin"></i></a>
+      <a href="https://www.github.com/deepa-m-dev"><i class="fab fa-github"></i></a>
+      <a href="https://www.instagram.com/deartbuff"><i class="fab fa-instagram"></i></a>
+    </div>
+    <p>&copy; 2025 Deepa M. Crafted with &hearts; and code.</p>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById("cursor");
+    document.addEventListener("mousemove", e => {
+      cursor.style.left = e.clientX + "px";
+      cursor.style.top  = e.clientY + "px";
+    });
+
+   
+const words = ["Aspiring Full Stack Developer","BCA Student","Artist","Poet", "Problem Solver", "Quick Learner", "Creative Coder"];
+let i = 0, j = 0, word = '', del = false;
+const txtEl = document.getElementById('typing-text');
+const articleEl = document.getElementById('article');
+
+function getArticle(word) {
+  return /^[aeiouAEIOU]/.test(word.trim()) ? 'an' : 'a';
+}
+
+function type() {
+  if (!del && j <= words[i].length) {
+    word = words[i].substring(0, j++);
+    txtEl.innerHTML = word;
+    articleEl.innerHTML = getArticle(words[i]);
+    // Pause after full word is typed
+    if (j === words[i].length + 1) {
+      del = true;
+      setTimeout(type, 1000); // Wait 1.5s before deleting
+      return;
+    }
+  } else if (del && j >= 0) {
+    word = words[i].substring(0, j--);
+    txtEl.innerHTML = word;
+
+    // Switch to next word
+    if (j < 0) {
+      del = false;
+      i = (i + 1) % words.length;
+    }
+  }
+
+  setTimeout(type, del ? 50 : 100); // Type slower, delete faster
+}
+
+type();
+
+
+    const canvas = document.getElementById("bg"), ctx=canvas.getContext("2d");
+    let w,h,parts=[];
+    function initC(){
+      w=canvas.width=innerWidth;
+      h=canvas.height=innerHeight;
+      parts=[];
+      for(let k=0;k<150;k++){
+        parts.push({ x:Math.random()*w, y:Math.random()*h, r:Math.random()*2+1, dx:(Math.random()-0.5), dy:(Math.random()-0.5) });
+      }
+    }
+    function anim(){
+      ctx.fillStyle="rgba(0,0,0,0.2)"; ctx.fillRect(0,0,w,h);
+      ctx.fillStyle="#00fff7"; ctx.shadowBlur=15; ctx.shadowColor="#00fff7";
+      parts.forEach(p=>{
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,2*Math.PI); ctx.fill();
+        p.x+=p.dx; p.y+=p.dy;
+        if(p.x<0||p.x>w) p.dx*=-1;
+        if(p.y<0||p.y>h) p.dy*=-1;
+      });
+      requestAnimationFrame(anim);
+    }
+    window.addEventListener("resize", initC);
+    initC(); anim();
+  </script>
+</body>
+</html>
