@@ -1,4 +1,4 @@
-# 💫 Deepa M | Cinematic Portfolio Website
+# 💫 Deepa M | Portfolio Website
 
 Welcome to the official **portfolio website** of **Deepa M**, a passionate BCA student, full stack developer, and creative soul. This cinematic portfolio is designed to showcase her skills, projects, and artistic flair through elegant visuals, smooth animations, and dynamic content.
 
@@ -12,9 +12,13 @@ Welcome to the official **portfolio website** of **Deepa M**, a passionate BCA s
 ## 📁 Project Structure
 
 📦 deepa-portfolio/
+
 ├── index.html # Main HTML file (all content and structure)
+
 ├── style.css # Custom styles (if separated from <style> tag)
+
 ├── script.js # Typing animation & particle effects (if extracted)
+
 └── README.md # Project documentation
 
 ---
