@@ -1,409 +1,598 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Deepa M | Portfolio</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-      height: 100%;
-      font-family: 'Poppins', sans-serif;
-      background: black;
-      color: white;
-      overflow-x: hidden;
-    }
-    canvas#bg {
-      position: fixed; top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      z-index: -10;
-    }
-    #cursor {
-      position: fixed; width: 20px; height: 20px;
-      background: #00fff7; border-radius: 50%;
-      pointer-events: none;
-      box-shadow: 0 0 10px #00fff7, 0 0 20px #00fff7;
-      mix-blend-mode: screen; z-index: 9999;
-      transform: translate(-50%, -50%);
-    }
-    header {
-      height: 100vh;
-      display: flex; flex-direction: column;
-      justify-content: center; align-items: center;
-      text-align: center;
-    }
-    header h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 4rem;
-      color: #00fff7;
-      text-shadow: 0 0 10px #00fff7, 0 0 20px #00fff7;
-      transition: color 0.3s, text-shadow 0.3s;
-    }
-    header h1:hover {
-      color: #ffffff;
-      text-shadow: 0 0 15px #ffffff, 0 0 30px #ffffff;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Deepa M | Portfolio</title>
+<meta name="description" content="Portfolio of Deepa M — BCA student and full-stack/ML developer building AI-powered apps, with 50+ LeetCode problems solved and a love for poetry and visual art.">
+<meta property="og:title" content="Deepa M | Portfolio">
+<meta property="og:description" content="BCA student and full-stack/ML developer crafting AI-powered apps — also a poet and visual artist.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2304060c'/%3E%3Ctext x='50' y='66' font-size='42' text-anchor='middle' fill='%2300fff7' font-family='monospace' font-weight='bold'%3E%7B%7D%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Poppins:wght@300;400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+  :root{
+    --bg:#04060c;
+    --cyan:#00fff7;
+    --violet:#8b6bff;
+    --coral:#ff5d7a;
+    --text:#f3f4f8;
+    --text-dim:#9aa1b8;
+    --border:rgba(0,255,247,.35);
+    --font-display:'Orbitron', sans-serif;
+    --font-body:'Poppins', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+    --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-padding-top:90px; }
+  @media (prefers-reduced-motion:no-preference){ html{ scroll-behavior:smooth; } }
+  html,body{ min-height:100%; font-family:var(--font-body); background:var(--bg); color:var(--text); overflow-x:hidden; }
+  img,svg{ max-width:100%; }
+  a{ color:inherit; }
+  ul{ list-style:none; }
 
-    header h3 {
-      font-size: 2rem; margin-top: 10px;
-      color: #fff;
-      transition: color 0.3s, text-shadow 0.3s;
-    }
-    header h3 span {
-      color: #b74b4b;
-      transition: color 0.3s, text-shadow 0.3s;
-    }
-    header h3:hover span {
-      color: #00fff7;
-      text-shadow: 0 0 10px #00fff7, 0 0 20px #00fff7;
-    }
+  :focus-visible{ outline:2px solid var(--cyan); outline-offset:3px; border-radius:4px; }
 
-    section {
-      padding: 60px 10%;
-      animation: fadeInUp 1s ease-in-out;
-    }
-    @keyframes fadeInUp {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-    h2.section-title {
-      font-size: 2rem;
-      font-family: 'Orbitron', sans-serif;
-      color: #00fff7;
-      text-shadow: 0 0 10px #00fff7;
-      text-align: center;
-      margin-bottom: 30px;
-    }
+  /* ---------- background layers ---------- */
+  #aura{
+    position:fixed; inset:0; z-index:-12;
+    background:
+      radial-gradient(circle at 18% 22%, rgba(139,107,255,.22), transparent 42%),
+      radial-gradient(circle at 82% 18%, rgba(0,255,247,.16), transparent 45%),
+      radial-gradient(circle at 50% 100%, rgba(255,93,122,.10), transparent 40%),
+      var(--bg);
+    background-size:180% 180%;
+  }
+  @media (prefers-reduced-motion:no-preference){
+    #aura{ animation:auraShift 36s ease-in-out infinite alternate; }
+  }
+  @keyframes auraShift{ 0%{ background-position:0% 0%; } 100%{ background-position:100% 100%; } }
 
-    .card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid #00fff7;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 15px #00fff7;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      color: white;
-    }
-    .card:hover {
-      transform: translateY(-5px) scale(1.02);
-      box-shadow: 0 0 40px #00fff7;
-    }
+  canvas#bg{ position:fixed; inset:0; width:100vw; height:100vh; z-index:-11; }
 
-    /* 🔥 NEW: Fancy text hover inside cards only */
-    .card:hover p,
-    .card:hover li,
-    .card:hover strong {
-      color: #00fff7;
-      text-shadow: 0 0 5px #00fff7, 0 0 15px #00fff7;
-      transition: all 0.3s ease;
-    }
+  #cursor{
+    position:fixed; width:18px; height:18px; background:var(--cyan); border-radius:50%;
+    pointer-events:none; box-shadow:0 0 10px var(--cyan), 0 0 22px var(--cyan);
+    mix-blend-mode:screen; z-index:9999; transform:translate(-50%,-50%);
+  }
+  @media (pointer:coarse){ #cursor{ display:none; } }
 
-    .skills-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-    }
-    .skill-badge {
-      border: 1px solid #00fff7;
-      padding: 10px 20px;
-      border-radius: 20px;
-      font-weight: 600;
-      text-shadow: 0 0 10px #00fff7;
-      box-shadow: 0 0 10px #00fff7;
-      transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
-      animation: glow 2s infinite alternate;
-    }
-    @keyframes glow {
-      from { text-shadow: 0 0 10px #00fff7; }
-      to   { text-shadow: 0 0 20px #00fff7, 0 0 30px #00fff7; }
-    }
-    .skill-badge:hover {
-      transform: scale(1.1) rotate(-2deg);
-      background: #00fff7;
-      color: black;
-      box-shadow: 0 0 20px #00fff7, 0 0 40px #00fff7;
-    }
+  /* ---------- nav ---------- */
+  #site-nav{
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px clamp(20px,6vw,60px);
+    background:rgba(4,6,12,.55); backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(0,255,247,.15);
+  }
+  .nav-logo{ font-family:var(--font-display); font-size:1.3rem; color:var(--cyan); text-shadow:0 0 8px var(--cyan); text-decoration:none; }
+  .nav-logo span{ color:var(--coral); }
+  #nav-links{ display:flex; gap:28px; align-items:center; }
+  .nav-link{ font-family:var(--font-mono); font-size:.85rem; text-decoration:none; color:var(--text-dim); position:relative; padding:4px 2px; transition:color .25s var(--ease); }
+  .nav-link:hover, .nav-link.active{ color:var(--cyan); }
+  .nav-link.active::after{ content:''; position:absolute; left:0; bottom:-4px; width:100%; height:2px; background:var(--cyan); box-shadow:0 0 8px var(--cyan); }
+  .nav-cta{ border:1px solid var(--border); padding:8px 16px; border-radius:20px; color:var(--cyan); }
+  .nav-cta:hover{ background:var(--cyan); color:#000; }
+  #nav-toggle{ display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px; }
+  #nav-toggle span{ width:24px; height:2px; background:var(--cyan); display:block; }
 
-    form input, form textarea {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid #00fff7;
-      color: white;
-      padding: 10px;
-      border-radius: 8px;
-      width: 100%;
-      margin-bottom: 15px;
+  @media (max-width:820px){
+    #nav-toggle{ display:flex; }
+    #nav-links{
+      position:absolute; top:100%; left:0; right:0; flex-direction:column; gap:0;
+      background:rgba(4,6,12,.97); max-height:0; overflow:hidden; transition:max-height .35s var(--ease);
     }
-    form input::placeholder, form textarea::placeholder {
-      color: #aaa;
-    }
-    form button {
-      background-color: #00fff7;
-      color: black;
-      font-weight: bold;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      transition: background-color 0.3s;
-    }
-    form button:hover {
-      background-color: #00e6d2;
-    }
+    #nav-links.open{ max-height:340px; }
+    #nav-links li{ width:100%; }
+    .nav-link{ display:block; padding:16px clamp(20px,6vw,60px); border-bottom:1px solid rgba(255,255,255,.06); }
+    .nav-cta{ border-radius:0; margin:0; text-align:center; }
+  }
 
-	  
-	  
-	  .btn-glow {
-  background-color: #00fff7;
-  color: black !important;
-  font-weight: bold;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  text-decoration: none !important; /* removes underline */
-  transition: all 0.3s ease;
-  display: inline-block;
-}
+  /* ---------- hero ---------- */
+  header{ min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:0 24px; position:relative; }
+  .hero-name{
+    font-family:var(--font-display); font-size:clamp(2.4rem,9vw,4.6rem); font-weight:800;
+    background:linear-gradient(110deg,var(--cyan),var(--violet),var(--cyan)); background-size:200% auto;
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    filter:drop-shadow(0 0 16px rgba(0,255,247,.4));
+  }
+  @media (prefers-reduced-motion:no-preference){ .hero-name{ animation:shimmer 7s linear infinite; } }
+  @keyframes shimmer{ to{ background-position:200% center; } }
 
-.btn-glow:hover {
-  background-color: #00e6d2;
-  box-shadow: 0 0 15px #00fff7, 0 0 30px #00fff7;
-  transform: scale(1.05);
-  color: black !important; /* stays black on hover */
-}
+  .hero-sub{ font-size:clamp(1.1rem,4vw,1.7rem); font-weight:600; margin-top:14px; }
+  .hero-sub .article-text{ color:var(--coral); }
+  .hero-sub .role{ color:var(--cyan); text-shadow:0 0 10px var(--cyan); }
+  .caret{ display:inline-block; color:var(--cyan); margin-left:2px; animation:blink 1s step-end infinite; }
+  @keyframes blink{ 50%{ opacity:0; } }
 
+  .scroll-cue{ position:absolute; bottom:36px; display:flex; flex-direction:column; align-items:center; gap:6px; color:var(--text-dim); text-decoration:none; font-family:var(--font-mono); font-size:.75rem; }
+  .scroll-cue i{ animation:bounce 2s infinite; }
+  @keyframes bounce{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(8px); } }
+  @media (prefers-reduced-motion:reduce){ .scroll-cue i, .caret{ animation:none; } }
 
-    footer {
-      text-align: center;
-      padding: 40px 20px;
-      color: #ccc;
-    }
-    .social-icons a {
-      color: #b74b4b;
-      font-size: 2rem;
-      margin: 0 10px;
-      transition: transform 0.3s ease, color 0.3s ease;
-    }
-    .social-icons a:hover {
-      color: #fff;
-      transform: scale(1.2);
-    }
-    .article-text {
-  color: white !important;
-text-shadow: none !important;
-  transition: none !important;
-  pointer-events: none;
-  
-    }
+  /* ---------- sections ---------- */
+  section{ padding:90px clamp(20px,6vw,60px); max-width:1080px; margin:0 auto; }
+  .eyebrow{ font-family:var(--font-mono); font-size:.8rem; text-align:center; color:var(--violet); letter-spacing:.05em; margin-bottom:10px; opacity:.9; }
+  h2.section-title{ font-size:clamp(1.6rem,5vw,2.1rem); font-family:var(--font-display); color:var(--cyan); text-shadow:0 0 10px var(--cyan); text-align:center; margin-bottom:34px; }
 
+  .reveal{ opacity:0; transform:translateY(26px); transition:opacity .7s var(--ease), transform .7s var(--ease); }
+  .reveal.is-visible{ opacity:1; transform:translateY(0); }
+  @media (prefers-reduced-motion:reduce){ .reveal{ opacity:1; transform:none; transition:none; } }
 
-    @media (max-width: 768px) {
-      header h1 { font-size: 3rem; }
-      header h3 { font-size: 1.5rem; }
-      h2.section-title { font-size: 2rem; }
-    }
-  </style>
+  .card{
+    background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:14px;
+    padding:26px; margin-bottom:22px; box-shadow:0 0 15px rgba(0,255,247,.15);
+    backdrop-filter:blur(6px); transition:transform .3s var(--ease), box-shadow .3s var(--ease);
+  }
+  .card:hover{ transform:translateY(-4px); box-shadow:0 0 32px rgba(0,255,247,.3); }
+  .card:hover p, .card:hover li{ color:var(--cyan); text-shadow:0 0 4px rgba(0,255,247,.5); transition:all .3s var(--ease); }
+  .card p{ line-height:1.75; color:var(--text); }
+  .card p + p{ margin-top:14px; }
+
+  /* skills */
+  .skills-container{ display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
+  .skill-badge{
+    border:1px solid var(--border); padding:9px 18px; border-radius:20px; font-weight:600; font-size:.92rem;
+    text-shadow:0 0 8px rgba(0,255,247,.5); box-shadow:0 0 8px rgba(0,255,247,.25);
+    transition:transform .3s var(--ease), background .3s var(--ease), color .3s var(--ease);
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .skill-badge{ animation:glow 3.4s ease-in-out infinite alternate; }
+  }
+  @keyframes glow{ from{ text-shadow:0 0 6px rgba(0,255,247,.5); } to{ text-shadow:0 0 16px rgba(0,255,247,.85), 0 0 26px rgba(0,255,247,.4); } }
+  .skill-badge:hover{ transform:scale(1.08) rotate(-1.5deg); background:var(--cyan); color:#000; box-shadow:0 0 20px var(--cyan); }
+
+  /* achievements */
+  .achv-list li{ position:relative; padding:8px 0 8px 30px; line-height:1.6; }
+  .achv-list li::before{ content:"\f521"; font-family:"Font Awesome 6 Free"; font-weight:900; position:absolute; left:0; top:8px; color:var(--coral); font-size:.9rem; }
+
+  /* projects */
+  .project-card .project-head{ display:flex; gap:10px; align-items:baseline; flex-wrap:wrap; margin-bottom:10px; }
+  .project-card h3{ font-family:var(--font-display); font-size:1.05rem; color:var(--text); }
+  .tech-tags{ display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 16px; }
+  .tag{ font-family:var(--font-mono); font-size:.74rem; padding:4px 10px; border:1px solid rgba(0,255,247,.25); border-radius:6px; color:var(--text-dim); }
+  .project-links{ display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
+
+  .btn-glow{
+    background:var(--cyan); color:#000 !important; font-weight:bold; padding:9px 20px; border:none; border-radius:8px;
+    cursor:pointer; text-decoration:none !important; transition:all .3s var(--ease); display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-glow:hover{ background:#00e6d2; box-shadow:0 0 16px var(--cyan), 0 0 30px var(--cyan); transform:scale(1.04); }
+
+  /* contact */
+  .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+  form .field{ margin-bottom:16px; }
+  form input, form textarea{
+    background:rgba(255,255,255,.05); border:1px solid var(--border); color:var(--text);
+    padding:12px 14px; border-radius:8px; width:100%; font-family:var(--font-body);
+  }
+  form input::placeholder, form textarea::placeholder{ color:#8b8f9e; }
+  form input:focus, form textarea:focus{ outline:none; border-color:var(--cyan); box-shadow:0 0 10px rgba(0,255,247,.25); }
+  #form-status{ margin-top:14px; font-size:.92rem; min-height:1.2em; }
+  #form-status.success{ color:var(--cyan); }
+  #form-status.error{ color:var(--coral); }
+
+  /* footer */
+  footer{ text-align:center; padding:50px 20px 70px; color:var(--text-dim); }
+  .social-icons a{ color:var(--coral); font-size:1.8rem; margin:0 12px; transition:transform .3s var(--ease), color .3s var(--ease); display:inline-block; }
+  .social-icons a:hover{ color:#fff; transform:scale(1.2); }
+
+  #back-to-top{
+    position:fixed; right:22px; bottom:22px; z-index:900; width:44px; height:44px; border-radius:50%;
+    background:rgba(4,6,12,.7); border:1px solid var(--border); color:var(--cyan); cursor:pointer;
+    opacity:0; pointer-events:none; transition:opacity .3s var(--ease), transform .3s var(--ease); backdrop-filter:blur(6px);
+  }
+  #back-to-top.visible{ opacity:1; pointer-events:auto; }
+  #back-to-top:hover{ transform:translateY(-3px); box-shadow:0 0 14px var(--cyan); }
+
+  @media (max-width:768px){
+    section{ padding:70px 20px; }
+  }
+</style>
 </head>
-<body>
+<body id="top">
+  <div id="aura"></div>
   <canvas id="bg"></canvas>
   <div id="cursor"></div>
 
+  <nav id="site-nav">
+    <a href="#top" class="nav-logo">DM<span>.</span></a>
+    <button id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul id="nav-links">
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#skills" class="nav-link">Skills</a></li>
+      <li><a href="#achievements" class="nav-link">Achievements</a></li>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#contact" class="nav-link nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
   <header>
-    <h1>Deepa M</h1>
-    <h3>I'm <span id="article" class="article-text"></span> <span id="typing-text"></span></h3>
+    <h1 class="hero-name">Deepa M</h1>
+    <h3 class="hero-sub">I'm <span id="article" class="article-text"></span> <span id="typing-text" class="role"></span><span class="caret" aria-hidden="true">|</span></h3>
+    <a href="#about" class="scroll-cue" aria-label="Scroll to About section">Scroll<i class="fas fa-chevron-down" aria-hidden="true"></i></a>
   </header>
 
-  <section>
+  <main>
+  <section id="about" class="reveal">
+    <p class="eyebrow">// about.init()</p>
     <h2 class="section-title">About Me</h2>
     <div class="card">
-      <p>Greetings, I'm Deepa M., a passionate BCA student<i>(CGPA: 9.18/10)</i> who believes that technology and creativity are two sides of the same coin. With a strong command of <b>Python, Java, and full-stack web development</b>, I build software not just to function—but to connect, simplify, and inspire.<br><br>
-
-My journey began in a Commerce classroom, where logic and numbers shaped my thinking<i>(scored 96% overall with 99 in Business Mathematics and centum in Accounts & Commerce).</i> Now, in the world of code, I apply that foundation to solve real-world problems with precision and purpose. From <b>creating apps like Notes, To-Do Lists, and Student Management Systems, to building intelligent projects like <b>Hire AI</b>, <b>Smart Log Analytics System</b>, and <b>UrbanFlow AI Traffic Congestion Prediction</b></b>—I turn ideas into interactive, user-friendly and AI-powered solutions.<br>I've also solved <b>50+ problems on LeetCode</b>, sharpening my problem-solving mindset.
-<br><br>
-But beyond the code, I’m also a <b>poet and visual artist</b>. I write with emotion, draw with intention, and build with heart. Creativity fuels my development process, helping me think differently, design intuitively, and communicate effectively.
-<br><br>
-I’m an enthusiastic learner, a disciplined dreamer, and a proud self-starter. My goal? To grow into a versatile developer and <b>future AI innovator</b>—while staying grounded in empathy, creativity, and purpose.
-<br><br>
-I’m always open to new opportunities, learning experiences, and meaningful collaborations.<br> Let’s connect and create something impactful!
-</p>
+      <p>Greetings, I'm Deepa M, a passionate BCA student <em>(CGPA: 9.18/10)</em> who believes technology and creativity are two sides of the same coin. With a strong command of <strong>Python, Java, and full-stack web development</strong>, I build software not just to function — but to connect, simplify, and inspire.</p>
+      <p>My journey began in a Commerce classroom, where logic and numbers shaped my thinking <em>(96% overall, with 99 in Business Mathematics and a centum in Accounts &amp; Commerce)</em>. Now, in the world of code, I apply that foundation to solve real-world problems with precision and purpose. From building everyday apps like Notes, To-Do Lists, and a Student Management System, to engineering intelligent projects like <strong>Hire AI</strong>, <strong>Smart Log Analytics System</strong>, and <strong>UrbanFlow AI</strong> — I turn ideas into interactive, AI-powered solutions. I've also solved <strong>50+ problems on LeetCode</strong>, sharpening my problem-solving mindset.</p>
+      <p>But beyond the code, I'm also a <strong>poet and visual artist</strong>. I write with emotion, draw with intention, and build with heart — creativity fuels how I think, design, and communicate.</p>
+      <p>I'm an enthusiastic learner, a disciplined dreamer, and a proud self-starter, growing into a versatile developer and <strong>future AI innovator</strong> — grounded in empathy, creativity, and purpose.</p>
+      <p>I'm always open to new opportunities, learning experiences, and meaningful collaborations. Let's connect and create something impactful!</p>
     </div>
   </section>
 
-  <section>
+  <section id="skills" class="reveal">
+    <p class="eyebrow">// tech_stack.json</p>
     <h2 class="section-title">Skills</h2>
     <div class="card">
       <div class="skills-container">
         <div class="skill-badge">Java</div>
-	<div class="skill-badge">Python</div>
-	<div class="skill-badge">C</div>
-	<div class="skill-badge">C++</div>
+        <div class="skill-badge">Python</div>
+        <div class="skill-badge">C</div>
+        <div class="skill-badge">C++</div>
         <div class="skill-badge">HTML</div>
         <div class="skill-badge">CSS</div>
         <div class="skill-badge">JavaScript</div>
         <div class="skill-badge">React</div>
-	<div class="skill-badge">Bootstrap</div>
+        <div class="skill-badge">Bootstrap</div>
         <div class="skill-badge">Spring Boot</div>
         <div class="skill-badge">Flask</div>
-		  <div class="skill-badge">Rest APIs</div>
-		  <div class="skill-badge">Numpy</div>
-		  <div class="skill-badge">Pandas</div>
-		  <div class="skill-badge">Matplotlib</div>
-		  <div class="skill-badge">Seaborn</div>
-		  <div class="skill-badge">Scikit-Learn</div>
-		  <div class="skill-badge">Machine Learning</div>
+        <div class="skill-badge">REST APIs</div>
+        <div class="skill-badge">NumPy</div>
+        <div class="skill-badge">Pandas</div>
+        <div class="skill-badge">Matplotlib</div>
+        <div class="skill-badge">Seaborn</div>
+        <div class="skill-badge">Scikit-learn</div>
+        <div class="skill-badge">Machine Learning</div>
         <div class="skill-badge">SQL</div>
         <div class="skill-badge">SQLite</div>
         <div class="skill-badge">RDBMS</div>
-	<div class="skill-badge">Data Structures & Algorithms(DSA)</div> 
-        <div class="skill-badge">Operating Systems(OS)</div>
-	<div class="skill-badge">Object-Oriented Programming(OOP)</div>
-        <div class="skill-badge">Git & GitHub</div>
-	<div class="skill-badge">Agile</div>
-	<div class="skill-badge">SDLC</div>
-		  <div class="skill-badge">Power BI</div>
+        <div class="skill-badge">Data Structures &amp; Algorithms</div>
+        <div class="skill-badge">Operating Systems</div>
+        <div class="skill-badge">OOP</div>
+        <div class="skill-badge">Git &amp; GitHub</div>
+        <div class="skill-badge">Agile</div>
+        <div class="skill-badge">SDLC</div>
+        <div class="skill-badge">Power BI</div>
       </div>
     </div>
   </section>
 
-  <section>
-    <h2 class="section-title">LeetCode & Achievements</h2>
+  <section id="achievements" class="reveal">
+    <p class="eyebrow">// achievements.log</p>
+    <h2 class="section-title">LeetCode &amp; Achievements</h2>
     <div class="card">
-      
-      <ul type="circle">
-	<li>Solved 50+ LeetCode problems, strengthening core algorithmic thinking and coding proficiency
-</li>
-        <li>Awarded 4 academic honors for scoring centum in Commerce & Accounts (12th) and Economics & Accounts (11th) </li>
-        <li>Ranked 1st in 12th grade, recognized with a prestigious school excellence award
-</li>
-        <li>Secured 3rd position in 1st-year BCA, earning a merit scholarship for academic distinction
-</li>
-	<li>Compered multiple school events, demonstrating strong communication, stage presence, and leadership</li>
+      <ul class="achv-list">
+        <li>Solved 50+ LeetCode problems, strengthening core algorithmic thinking and coding proficiency.</li>
+        <li>Awarded 4 academic honors for scoring centum in Commerce &amp; Accounts (12th) and Economics &amp; Accounts (11th).</li>
+        <li>Ranked 1st in 12th grade, recognized with a prestigious school excellence award.</li>
+        <li>Secured 3rd position in 1st-year BCA, earning a merit scholarship for academic distinction.</li>
+        <li>Compered multiple school events, demonstrating strong communication, stage presence, and leadership.</li>
       </ul>
     </div>
   </section>
 
-  <section>
+  <section id="projects" class="reveal">
+    <p class="eyebrow">// builds/</p>
     <h2 class="section-title">Projects</h2>
 
-	  	<div class="card">🎨 <strong>Hire AI </strong> An intelligent recruitment web application that predicts candidate selection chances using Machine Learning. Built with Flask, XGBoost, HTML, CSS, and JavaScript, the system analyzes applicant details and provides smart hiring predictions through an interactive dashboard. <br> <p><span class="fst-italic">&#128736;Technologies: </span>Python, Flask, XGBoost, Scikit-learn, Pandas, Numpy, Matplotlib, Seaborn, HTML, CSS, JavaScript, SQLite, </p> <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span>🔗 &nbsp;</span><a href="https://ai-hiring-system-aowd.onrender.com/" class="btn-glow">Live Demo</a>        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                <span class="fab fa-github"></span> &nbsp;<a href="https://github.com/deepa-m-dev/AI-Hiring-System" class="btn-glow">GitHub</a> </p></div>
-	  
-	  	<div class="card">🎨 <strong>Smart Observability & API Monitoring Platform </strong> Built a real-time backend monitoring system using Python, Flask, SQLite, Pandas, and Matplotlib. The platform collects API logs, analyzes system performance, generates live analytics dashboards, visualizes traffic trends, and simulates real-time server activity with automated monitoring insights. <br> <p><span class="fst-italic">&#128736;Technologies: </span>Python, Flask, Pandas, Matplotlib, HTML, CSS, JavaScript, SQLite, </p> <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span>🔗 &nbsp;</span><a href="https://smart-observability-platform.onrender.com/" class="btn-glow">Live Demo</a>        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                <span class="fab fa-github"></span> &nbsp;<a href="https://github.com/deepa-m-dev/smart-observability-platform" class="btn-glow">GitHub</a> </p></div>
-	  
-	  	<div class="card">🎨 <strong>UrbanFlow AI </strong> Developed a full-stack AI-powered traffic intelligence system using Linear Regression and K-Means Clustering to predict traffic congestion and analyze urban traffic patterns. Built with Flask, Scikit-learn, and an interactive dashboard featuring real-time predictions, traffic analytics, and ML-driven insights. Achieved an R² score of 0.969 for congestion prediction accuracy.<br> <p><span class="fst-italic">&#128736;Technologies: </span>Python, Flask, Linear Regression, K-Means Clustering, Scikit-learn, Pandas, Numpy, HTML, CSS, JavaScript </p> <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="fab fa-github"></span> &nbsp;<a href="https://github.com/deepa-m-dev/UrbanFlow-AI" class="btn-glow">GitHub</a> </p></div>
-	  
-		<div class="card">🎓 <strong>Student Management System</strong> A CRUD-based web application for managing student records, including adding, updating, viewing, and deleting student details. <br> <p><span class="fst-italic">&#128736;Technologies: </span> Java, Spring Boot, spring Data JPA, Thymeleaf, MySQL, Maven, HTML, CSS, Bootstrap</p></div>
+    <div class="card project-card">
+      <div class="project-head"><span>🎨</span><h3>Hire AI</h3></div>
+      <p>An intelligent recruitment web application that predicts candidate selection chances using machine learning. Built with Flask and XGBoost, it analyzes applicant details and surfaces hiring predictions through an interactive dashboard.</p>
+      <div class="tech-tags">
+        <span class="tag">Python</span><span class="tag">Flask</span><span class="tag">XGBoost</span><span class="tag">Scikit-learn</span><span class="tag">Pandas</span><span class="tag">NumPy</span><span class="tag">Matplotlib</span><span class="tag">Seaborn</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SQLite</span>
+      </div>
+      <div class="project-links">
+        <a href="https://ai-hiring-system-aowd.onrender.com/" class="btn-glow" target="_blank" rel="noopener noreferrer"><i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>Live Demo</a>
+        <a href="https://github.com/deepa-m-dev/AI-Hiring-System" class="btn-glow" target="_blank" rel="noopener noreferrer"><i class="fab fa-github" aria-hidden="true"></i>GitHub</a>
+      </div>
+    </div>
 
-    	<div class="card">📝 <strong>Notes App</strong> A full-stack application to create, edit, and manage notes efficiently <br> <p> <span class="fst-italic">&#128736; Technologies: </span> Python, Flask, SQLite, HTML, CSS, JavaScript </p></div>
-    
-    	<div class="card">✅ <strong>To-Do List App</strong>A React.js-based task management application that allows users to add, mark complete, and delete tasks. <br> <p> <span class="fst-italic">&#128736; Technologies: </span> React.js, JavaScript(ES6+), HTML5, CSS3 </p> </div>
-  
+    <div class="card project-card">
+      <div class="project-head"><span>🎨</span><h3>Smart Observability &amp; API Monitoring Platform</h3></div>
+      <p>A real-time backend monitoring system that collects API logs, analyzes system performance, and generates live analytics dashboards — visualizing traffic trends and simulating server activity with automated monitoring insights.</p>
+      <div class="tech-tags">
+        <span class="tag">Python</span><span class="tag">Flask</span><span class="tag">Pandas</span><span class="tag">Matplotlib</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SQLite</span>
+      </div>
+      <div class="project-links">
+        <a href="https://smart-observability-platform.onrender.com/" class="btn-glow" target="_blank" rel="noopener noreferrer"><i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>Live Demo</a>
+        <a href="https://github.com/deepa-m-dev/smart-observability-platform" class="btn-glow" target="_blank" rel="noopener noreferrer"><i class="fab fa-github" aria-hidden="true"></i>GitHub</a>
+      </div>
+    </div>
+
+    <div class="card project-card">
+      <div class="project-head"><span>🎨</span><h3>UrbanFlow AI</h3></div>
+      <p>A full-stack AI-powered traffic intelligence system using linear regression and K-means clustering to predict congestion and analyze urban traffic patterns, with an interactive dashboard for real-time predictions. Achieved an R² score of 0.969 for congestion prediction accuracy.</p>
+      <div class="tech-tags">
+        <span class="tag">Python</span><span class="tag">Flask</span><span class="tag">Linear Regression</span><span class="tag">K-Means</span><span class="tag">Scikit-learn</span><span class="tag">Pandas</span><span class="tag">NumPy</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/deepa-m-dev/UrbanFlow-AI" class="btn-glow" target="_blank" rel="noopener noreferrer"><i class="fab fa-github" aria-hidden="true"></i>GitHub</a>
+      </div>
+    </div>
+
+    <div class="card project-card">
+      <div class="project-head"><span>🎓</span><h3>Student Management System</h3></div>
+      <p>A CRUD-based web application for managing student records — adding, updating, viewing, and deleting student details.</p>
+      <div class="tech-tags">
+        <span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">Spring Data JPA</span><span class="tag">Thymeleaf</span><span class="tag">MySQL</span><span class="tag">Maven</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Bootstrap</span>
+      </div>
+    </div>
+
+    <div class="card project-card">
+      <div class="project-head"><span>📝</span><h3>Notes App</h3></div>
+      <p>A full-stack application to create, edit, and manage notes efficiently.</p>
+      <div class="tech-tags">
+        <span class="tag">Python</span><span class="tag">Flask</span><span class="tag">SQLite</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span>
+      </div>
+    </div>
+
+    <div class="card project-card">
+      <div class="project-head"><span>✅</span><h3>To-Do List App</h3></div>
+      <p>A React.js task management application that lets users add, mark complete, and delete tasks.</p>
+      <div class="tech-tags">
+        <span class="tag">React.js</span><span class="tag">JavaScript (ES6+)</span><span class="tag">HTML5</span><span class="tag">CSS3</span>
+      </div>
+    </div>
   </section>
 
-  <section id="contact">
+  <section id="contact" class="reveal">
+    <p class="eyebrow">// contact.send()</p>
     <h2 class="section-title">Contact Me</h2>
     <div class="card">
-
-	<form action="https://formsubmit.co/deepamurugan2112@gmail.com" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required />
-        <input type="email" name="email" placeholder="Your Email" required />
-        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-
-	<input type="text" name="_honey" style="display:none">
-  
- 	 <!-- Disable Captcha -->
- 	 <input type="hidden" name="_captcha" value="false">
-  
-  	<!-- Redirect after success -->
-  	<!-- input type="hidden" name="_next" value="https://yourwebsite.com/thank-you.html" -->
-
-
-        <button type="submit">Send Message</button>
+      <form id="contact-form" action="https://formsubmit.co/deepamurugan2112@gmail.com" method="POST">
+        <div class="field">
+          <label class="sr-only" for="name">Your Name</label>
+          <input type="text" id="name" name="name" placeholder="Your Name" required />
+        </div>
+        <div class="field">
+          <label class="sr-only" for="email">Your Email</label>
+          <input type="email" id="email" name="email" placeholder="Your Email" required />
+        </div>
+        <div class="field">
+          <label class="sr-only" for="message">Your Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+        </div>
+        <input type="text" name="_honey" style="display:none">
+        <input type="hidden" name="_captcha" value="false">
+        <button type="submit" class="btn-glow">Send Message</button>
+        <p id="form-status" role="status" aria-live="polite"></p>
       </form>
     </div>
   </section>
+  </main>
 
   <footer>
     <div class="social-icons">
-      <a href="https://www.linkedin.com/in/deepa-mofficial"><i class="fab fa-linkedin"></i></a>
-      <a href="https://www.github.com/deepa-m-dev"><i class="fab fa-github"></i></a>
-      <a href="https://www.instagram.com/deartbuff"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.linkedin.com/in/deepa-mofficial" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+      <a href="https://www.github.com/deepa-m-dev" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
+      <a href="https://www.instagram.com/deartbuff" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
     </div>
-    <p>&copy; 2025 Deepa M. Crafted with &hearts; and code.</p>
+    <p>&copy; <span id="year"></span> Deepa M. Crafted with &hearts; and code.</p>
   </footer>
 
+  <button id="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
+
   <script>
-    const cursor = document.getElementById("cursor");
-    document.addEventListener("mousemove", e => {
-      cursor.style.left = e.clientX + "px";
-      cursor.style.top  = e.clientY + "px";
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ---------- footer year ---------- */
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* ---------- custom cursor (pointer devices only) ---------- */
+    if (window.matchMedia('(pointer: fine)').matches) {
+      const cursor = document.getElementById('cursor');
+      window.addEventListener('mousemove', e => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+      });
+    } else {
+      document.getElementById('cursor').style.display = 'none';
+    }
+
+    /* ---------- typing effect ---------- */
+    const words = ["Python Developer","Junior ML Engineer","Full Stack Developer","BCA Student","Problem Solver","Quick Learner","Creative Coder","Artist","Poet"];
+    let wi = 0, ci = 0, deleting = false;
+    const txtEl = document.getElementById('typing-text');
+    const articleEl = document.getElementById('article');
+    const getArticle = w => /^[aeiouAEIOU]/.test(w.trim()) ? 'an' : 'a';
+
+    function type() {
+      const current = words[wi];
+      if (!deleting && ci <= current.length) {
+        txtEl.textContent = current.substring(0, ci);
+        articleEl.textContent = getArticle(current);
+        ci++;
+        if (ci === current.length + 1) { deleting = true; setTimeout(type, 1200); return; }
+      } else if (deleting && ci >= 0) {
+        txtEl.textContent = current.substring(0, ci);
+        ci--;
+        if (ci < 0) { deleting = false; wi = (wi + 1) % words.length; }
+      }
+      setTimeout(type, deleting ? 45 : 95);
+    }
+    type();
+
+    /* ---------- nav: mobile toggle + active link + smooth close ---------- */
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
     });
 
-   
-const words = ["Python Developer","Junior ML Engineer","Full Stack Developer","BCA Student","Problem Solver", "Quick Learner", "Creative Coder", "Artist","Poet"];
-let i = 0, j = 0, word = '', del = false;
-const txtEl = document.getElementById('typing-text');
-const articleEl = document.getElementById('article');
-
-function getArticle(word) {
-  return /^[aeiouAEIOU]/.test(word.trim()) ? 'an' : 'a';
-}
-
-function type() {
-  if (!del && j <= words[i].length) {
-    word = words[i].substring(0, j++);
-    txtEl.innerHTML = word;
-    articleEl.innerHTML = getArticle(words[i]);
-    // Pause after full word is typed
-    if (j === words[i].length + 1) {
-      del = true;
-      setTimeout(type, 1000); // Wait 1.5s before deleting
-      return;
+    const navAnchors = document.querySelectorAll('.nav-link');
+    const mainSections = document.querySelectorAll('main section[id]');
+    if ('IntersectionObserver' in window) {
+      const navObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            navAnchors.forEach(a => a.classList.remove('active'));
+            const match = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+            if (match) match.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-45% 0px -45% 0px' });
+      mainSections.forEach(s => navObserver.observe(s));
     }
-  } else if (del && j >= 0) {
-    word = words[i].substring(0, j--);
-    txtEl.innerHTML = word;
 
-    // Switch to next word
-    if (j < 0) {
-      del = false;
-      i = (i + 1) % words.length;
+    /* ---------- scroll reveal ---------- */
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      revealEls.forEach(el => revealObserver.observe(el));
+    } else {
+      revealEls.forEach(el => el.classList.add('is-visible'));
     }
-  }
 
-  setTimeout(type, del ? 50 : 100); // Type slower, delete faster
-}
+    /* ---------- back to top ---------- */
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('visible', window.scrollY > 500);
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    });
 
-type();
-
-
-    const canvas = document.getElementById("bg"), ctx=canvas.getContext("2d");
-    let w,h,parts=[];
-    function initC(){
-      w=canvas.width=innerWidth;
-      h=canvas.height=innerHeight;
-      parts=[];
-      for(let k=0;k<150;k++){
-        parts.push({ x:Math.random()*w, y:Math.random()*h, r:Math.random()*2+1, dx:(Math.random()-0.5), dy:(Math.random()-0.5) });
+    /* ---------- contact form (AJAX, stays on page) ---------- */
+    const form = document.getElementById('contact-form');
+    const status = document.getElementById('form-status');
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      const originalLabel = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Sending…';
+      status.className = ''; status.textContent = '';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form)
+        });
+        if (!res.ok) throw new Error('Request failed');
+        status.textContent = "Thanks! Your message is on its way — I'll get back to you soon.";
+        status.classList.add('success');
+        form.reset();
+      } catch (err) {
+        status.textContent = 'Something went wrong. Please email me directly at deepamurugan2112@gmail.com.';
+        status.classList.add('error');
+      } finally {
+        btn.disabled = false; btn.textContent = originalLabel;
       }
-    }
-    function anim(){
-      ctx.fillStyle="rgba(0,0,0,0.2)"; ctx.fillRect(0,0,w,h);
-      ctx.fillStyle="#00fff7"; ctx.shadowBlur=15; ctx.shadowColor="#00fff7";
-      parts.forEach(p=>{
-        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,2*Math.PI); ctx.fill();
-        p.x+=p.dx; p.y+=p.dy;
-        if(p.x<0||p.x>w) p.dx*=-1;
-        if(p.y<0||p.y>h) p.dy*=-1;
+    });
+
+    /* ---------- neural-network background ---------- */
+    (function () {
+      const canvas = document.getElementById('bg');
+      const ctx = canvas.getContext('2d');
+      const COLORS = ['0,255,247', '139,107,255'];
+      let w, h, dpr, particles = [], mouse = { x: 0, y: 0, active: false }, rafId;
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = window.innerWidth; h = window.innerHeight;
+        canvas.width = w * dpr; canvas.height = h * dpr;
+        canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        initParticles();
+      }
+
+      function initParticles() {
+        const count = Math.max(35, Math.min(110, Math.round((w * h) / 16000)));
+        particles = Array.from({ length: count }, () => ({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: Math.random() * 1.6 + 1,
+          dx: (Math.random() - 0.5) * 0.4,
+          dy: (Math.random() - 0.5) * 0.4,
+          c: COLORS[Math.floor(Math.random() * COLORS.length)]
+        }));
+      }
+
+      function frame() {
+        ctx.clearRect(0, 0, w, h);
+        const linkDist = 130;
+
+        for (const p of particles) {
+          p.x += p.dx; p.y += p.dy;
+          if (mouse.active) {
+            const mdx = p.x - mouse.x, mdy = p.y - mouse.y;
+            const dist = Math.hypot(mdx, mdy);
+            if (dist < 90 && dist > 0.01) {
+              const force = (90 - dist) / 90 * 0.6;
+              p.x += (mdx / dist) * force;
+              p.y += (mdy / dist) * force;
+            }
+          }
+          if (p.x < 0 || p.x > w) p.dx *= -1;
+          if (p.y < 0 || p.y > h) p.dy *= -1;
+          p.x = Math.max(0, Math.min(w, p.x));
+          p.y = Math.max(0, Math.min(h, p.y));
+        }
+
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const a = particles[i], b = particles[j];
+            const dist = Math.hypot(a.x - b.x, a.y - b.y);
+            if (dist < linkDist) {
+              ctx.strokeStyle = `rgba(0,255,247,${(1 - dist / linkDist) * 0.35})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+            }
+          }
+        }
+
+        for (const p of particles) {
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(${p.c},0.9)`;
+          ctx.shadowBlur = 8; ctx.shadowColor = `rgba(${p.c},1)`;
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function loop() { frame(); rafId = requestAnimationFrame(loop); }
+
+      window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true; });
+      window.addEventListener('mouseleave', () => { mouse.active = false; });
+
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resize, 150);
       });
-      requestAnimationFrame(anim);
-    }
-    window.addEventListener("resize", initC);
-    initC(); anim();
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) { cancelAnimationFrame(rafId); }
+        else if (!prefersReducedMotion) { loop(); }
+      });
+
+      resize();
+      if (prefersReducedMotion) { frame(); } else { loop(); }
+    })();
   </script>
 </body>
 </html>
