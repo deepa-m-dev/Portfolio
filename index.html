@@ -29,29 +29,53 @@
   *{ margin:0; padding:0; box-sizing:border-box; }
   html{ scroll-padding-top:90px; }
   @media (prefers-reduced-motion:no-preference){ html{ scroll-behavior:smooth; } }
-  html,body{ min-height:100%; font-family:var(--font-body); background:var(--bg); color:var(--text); overflow-x:hidden; }
+  html,body{ min-height:100%; font-family:var(--font-body); background:var(transparent); color:var(--text); overflow-x:hidden; }
   img,svg{ max-width:100%; }
   a{ color:inherit; }
   ul{ list-style:none; }
 
   :focus-visible{ outline:2px solid var(--cyan); outline-offset:3px; border-radius:4px; }
 
-  /* ---------- background layers ---------- */
-  #aura{
-    position:fixed; inset:0; z-index:-12;
-    background:
-      radial-gradient(circle at 18% 22%, rgba(139,107,255,.22), transparent 42%),
-      radial-gradient(circle at 82% 18%, rgba(0,255,247,.16), transparent 45%),
-      radial-gradient(circle at 50% 100%, rgba(255,93,122,.10), transparent 40%),
-      var(--bg);
-    background-size:180% 180%;
+  /* ---------- video background ---------- */
+  #bg-video {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    pointer-events: none;
   }
+#bg-overlay{
+    display:none;
+}
+
+#aura{
+    display:none;
+}
+  /* dark overlay so text stays readable over any video 
+  #bg-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: -11;
+    background: rgba(4, 6, 12, 0.62);
+    pointer-events: none;
+  }
+
+   ---------- aura colour layer on top of overlay ---------- 
+  #aura{
+    position:fixed; inset:0; z-index:-10;
+    background:
+      radial-gradient(circle at 18% 22%, rgba(139,107,255,.18), transparent 42%),
+      radial-gradient(circle at 82% 18%, rgba(0,255,247,.12), transparent 45%),
+      radial-gradient(circle at 50% 100%, rgba(255,93,122,.08), transparent 40%);
+    background-size:180% 180%;
+    pointer-events:none;
+  } */
   @media (prefers-reduced-motion:no-preference){
     #aura{ animation:auraShift 36s ease-in-out infinite alternate; }
   }
   @keyframes auraShift{ 0%{ background-position:0% 0%; } 100%{ background-position:100% 100%; } }
-
-  canvas#bg{ position:fixed; inset:0; width:100vw; height:100vh; z-index:-11; }
 
   #cursor{
     position:fixed; width:18px; height:18px; background:var(--cyan); border-radius:50%;
@@ -191,11 +215,24 @@
   @media (max-width:768px){
     section{ padding:70px 20px; }
   }
+
+  /* pause video when user prefers reduced motion */
+  @media (prefers-reduced-motion:reduce){
+    #bg-video { display:none; }
+  }
 </style>
 </head>
 <body id="top">
+
+  <!-- ===== VIDEO BACKGROUND ===== -->
+  <!-- Place bg.mp4 in the same folder as this HTML file -->
+  <video id="bg-video" autoplay muted loop playsinline poster="">
+    <source src="bg.mp4" type="video/mp4">
+  </video>
+  <div id="bg-overlay"></div>
+  <!-- ============================== -->
+
   <div id="aura"></div>
-  <canvas id="bg"></canvas>
   <div id="cursor"></div>
 
   <nav id="site-nav">
@@ -485,13 +522,13 @@
 
     /* ---------- contact form (AJAX, stays on page) ---------- */
     const form = document.getElementById('contact-form');
-    const status = document.getElementById('form-status');
+    const statusEl = document.getElementById('form-status');
     form.addEventListener('submit', async e => {
       e.preventDefault();
       const btn = form.querySelector('button[type="submit"]');
       const originalLabel = btn.textContent;
       btn.disabled = true; btn.textContent = 'Sending…';
-      status.className = ''; status.textContent = '';
+      statusEl.className = ''; statusEl.textContent = '';
       try {
         const res = await fetch(form.action, {
           method: 'POST',
@@ -499,106 +536,29 @@
           body: new FormData(form)
         });
         if (!res.ok) throw new Error('Request failed');
-        status.textContent = "Thanks! Your message is on its way — I'll get back to you soon.";
-        status.classList.add('success');
+        statusEl.textContent = "Thanks! Your message is on its way — I'll get back to you soon.";
+        statusEl.classList.add('success');
         form.reset();
       } catch (err) {
-        status.textContent = 'Something went wrong. Please email me directly at deepamurugan2112@gmail.com.';
-        status.classList.add('error');
+        statusEl.textContent = 'Something went wrong. Please email me directly at deepamurugan2112@gmail.com.';
+        statusEl.classList.add('error');
       } finally {
         btn.disabled = false; btn.textContent = originalLabel;
       }
     });
 
-    /* ---------- neural-network background ---------- */
-    (function () {
-      const canvas = document.getElementById('bg');
-      const ctx = canvas.getContext('2d');
-      const COLORS = ['0,255,247', '139,107,255'];
-      let w, h, dpr, particles = [], mouse = { x: 0, y: 0, active: false }, rafId;
-
-      function resize() {
-        dpr = Math.min(window.devicePixelRatio || 1, 2);
-        w = window.innerWidth; h = window.innerHeight;
-        canvas.width = w * dpr; canvas.height = h * dpr;
-        canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        initParticles();
-      }
-
-      function initParticles() {
-        const count = Math.max(35, Math.min(110, Math.round((w * h) / 16000)));
-        particles = Array.from({ length: count }, () => ({
-          x: Math.random() * w,
-          y: Math.random() * h,
-          r: Math.random() * 1.6 + 1,
-          dx: (Math.random() - 0.5) * 0.4,
-          dy: (Math.random() - 0.5) * 0.4,
-          c: COLORS[Math.floor(Math.random() * COLORS.length)]
-        }));
-      }
-
-      function frame() {
-        ctx.clearRect(0, 0, w, h);
-        const linkDist = 130;
-
-        for (const p of particles) {
-          p.x += p.dx; p.y += p.dy;
-          if (mouse.active) {
-            const mdx = p.x - mouse.x, mdy = p.y - mouse.y;
-            const dist = Math.hypot(mdx, mdy);
-            if (dist < 90 && dist > 0.01) {
-              const force = (90 - dist) / 90 * 0.6;
-              p.x += (mdx / dist) * force;
-              p.y += (mdy / dist) * force;
-            }
-          }
-          if (p.x < 0 || p.x > w) p.dx *= -1;
-          if (p.y < 0 || p.y > h) p.dy *= -1;
-          p.x = Math.max(0, Math.min(w, p.x));
-          p.y = Math.max(0, Math.min(h, p.y));
-        }
-
-        for (let i = 0; i < particles.length; i++) {
-          for (let j = i + 1; j < particles.length; j++) {
-            const a = particles[i], b = particles[j];
-            const dist = Math.hypot(a.x - b.x, a.y - b.y);
-            if (dist < linkDist) {
-              ctx.strokeStyle = `rgba(0,255,247,${(1 - dist / linkDist) * 0.35})`;
-              ctx.lineWidth = 1;
-              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-            }
-          }
-        }
-
-        for (const p of particles) {
-          ctx.beginPath();
-          ctx.fillStyle = `rgba(${p.c},0.9)`;
-          ctx.shadowBlur = 8; ctx.shadowColor = `rgba(${p.c},1)`;
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-
-      function loop() { frame(); rafId = requestAnimationFrame(loop); }
-
-      window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true; });
-      window.addEventListener('mouseleave', () => { mouse.active = false; });
-
-      let resizeTimer;
-      window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(resize, 150);
-      });
-
+    /* ---------- pause video when tab is hidden (saves resources) ---------- */
+    const bgVideo = document.getElementById('bg-video');
+    if (bgVideo) {
       document.addEventListener('visibilitychange', () => {
-        if (document.hidden) { cancelAnimationFrame(rafId); }
-        else if (!prefersReducedMotion) { loop(); }
+        if (document.hidden) { bgVideo.pause(); }
+        else { bgVideo.play().catch(() => {}); }
       });
-
-      resize();
-      if (prefersReducedMotion) { frame(); } else { loop(); }
-    })();
+      /* Fallback: if autoplay is blocked (some browsers), try on first interaction */
+      document.addEventListener('click', () => {
+        if (bgVideo.paused) bgVideo.play().catch(() => {});
+      }, { once: true });
+    }
   </script>
 </body>
 </html>
