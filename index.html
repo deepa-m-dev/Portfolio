@@ -580,7 +580,7 @@ footer{
   </div>
   <h1 class="hname">Deepa<br><span class="outline">M.</span></h1>
   <p class="hero-tag">I build <span class="typed" id="typed"></span><span class="cr">|</span></p>
-  <p class="hero-bio">BCA student at Vels University — crafting AI-powered systems that don't just run, they <strong>think</strong>. Full-stack dev with an ML backbone and an artist's eye for innovation and design.</p>
+  <p class="hero-bio">BCA student at Vels University <em>(CGPA 9.3/10)</em> — crafting AI-powered systems that don't just run, they <strong>think</strong>. Full-stack dev with an ML backbone and an artist's eye for innovation and design.</p>
   <div class="hero-actions">
     <a href="#projects" class="btn-fill">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
@@ -700,7 +700,19 @@ footer{
         <div class="clink">
           <div class="clink-ico">✉️</div>
           <div class="clink-meta"><span>// email</span><a href="mailto:deepamurugan2112@gmail.com">deepamurugan2112@gmail.com</a></div>
-     
+        </div>
+        <div class="clink">
+          <div class="clink-ico">💼</div>
+          <div class="clink-meta"><span>// linkedin</span><a href="https://www.linkedin.com/in/deepa-mofficial" target="_blank" rel="noopener">linkedin.com/in/deepa-mofficial</a></div>
+        </div>
+        <div class="clink">
+          <div class="clink-ico">🐙</div>
+          <div class="clink-meta"><span>// github</span><a href="https://www.github.com/deepa-m-dev" target="_blank" rel="noopener">github.com/deepa-m-dev</a></div>
+        </div>
+        <div class="clink">
+          <div class="clink-ico">🎨</div>
+          <div class="clink-meta"><span>// instagram (art)</span><a href="https://www.instagram.com/deartbuff" target="_blank" rel="noopener">@deartbuff</a></div>
+        </div>
       </div>
     </div>
     <form class="cform" id="cform" action="https://formsubmit.co/deepamurugan2112@gmail.com" method="POST">
@@ -720,7 +732,7 @@ footer{
 
 <!-- ══ FOOTER ═══════════════════════════════════════════ -->
 <footer>
-  <div class="ft-left">© <span id="yr"></span> <strong>Deepa M</strong><br>Crafted with Code &amp; AI </div>
+  <div class="ft-left">© <span id="yr"></span> <strong>Deepa M</strong> — crafted with precision &amp; purpose</div>
   <div class="socials">
     <a href="https://www.linkedin.com/in/deepa-mofficial" target="_blank" rel="noopener" class="soc" aria-label="LinkedIn">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
@@ -763,29 +775,28 @@ const TIMELINE = [
     date:"Dec 2025 — Mar 2026",
     role:"Analyst Trainee",
     place:"EY LLP(S. R. BATLIBOI & CO. LLP)",
-    desc:"Handled financial audit workflows using Alteryx and Excel—data reconciliation, cube creation, dashboards, and reporting. Ensured data quality across large datasets and supported audit documentation for global clients.",
-    badges:["Alteryx", "Excel", "Data Reconciliation", "Financial Audit", "Dashboard Creation"]
+    desc:"",
+    badges:["",""]
   },
   {
     date:"2023 — 2026",
     role:"BCA Student",
-    place:"VELS UNIVERSITY, Chennai",
-    desc:"CGPA: 9.3/10. Strong foundation in DSA, OOP, DBMS, and Web Development.",
-    badges:["Python","Java","Databases", "Data Structures"]
+    place:"Vels University, Chennai",
+    desc:"Pursuing Bachelor of Computer Applications with a CGPA of 9.3/10. Secured 3rd position in Year 1, earning a merit scholarship.",
+    badges:["CGPA 9.3","Merit Scholarship","Python","Java"]
   },
   {
     date:"2022 — 2023",
     role:"Class 12 — Commerce (Business Mathematics)",
-    place:"DAV - SARADA
-EASHWAR VIDYALAYA — Chennai",
+    place:"[Your School Name] — Tamil Nadu",
     desc:"Ranked 1st in class. Scored 95.8% overall with centum in Accounts and Commerce. Received the school excellence award.",
-    badges:["95.8%","School Excellence Award"]
+    badges:["Rank 1","95.8%","Centum in Accounts","School Excellence Award"]
   },
   
 ];
 
 const ACHIEVEMENTS = [
-  {ico:"🧠", title:"100+ LeetCode Problems", body:"Solved 100+ DSA and SQL problems, strengthening algorithmic thinking, problem-solving, and database querying skills."},
+  {ico:"🧠", title:"100+ LeetCode Problems", body:"Core algorithmic thinking, data structures, and coding proficiency — consistently practised across arrays, trees, DP, and graphs."},
   {ico:"🥇", title:"1st Rank — Class 12", body:"Topped the class and was recognised with the school excellence award for academic achievement."},
   {ico:"📜", title:"4 Academic Honours", body:"Centum scores in Commerce & Accounts (12th) and Economics & Accounts (11th) — a streak of perfect scores."},
   {ico:"🎓", title:"Merit Scholarship — BCA Yr 1", body:"3rd position in first-year BCA, earning a merit scholarship for academic distinction at Vels University."},
@@ -798,7 +809,7 @@ const PROJECTS = [
     ico:"🤖", title:"HireAI — Recruitment Intelligence",
     desc:"An intelligent recruitment web app that predicts candidate selection chances using XGBoost ML model. Flask backend, interactive analytics dashboard, end-to-end pipeline from data ingestion to prediction.",
     tags:["Python","Flask","XGBoost","Scikit-learn","Pandas","Matplotlib","SQLite","JavaScript"],
-    
+    metric:"R² 0.97 accuracy",
     demo:"https://ai-hiring-system-aowd.onrender.com/",
     github:"https://github.com/deepa-m-dev/AI-Hiring-System",
     code:[
@@ -806,8 +817,8 @@ const PROJECTS = [
       `<span class="kw">model</span>.<span class="fn">fit</span>(X_train, y_train)`,
       `<span class="cm"># Grid search for best params</span>`,
       `pred = <span class="kw">model</span>.<span class="fn">predict</span>(X_test)`,
-      `<span class="fn">classification_report</span>(y_test, pred)`,
-`<span class="cm"># Evaluate model performance</span>`,
+      `score = <span class="fn">accuracy_score</span>(y_test, pred)`,
+      `<span class="cm"># → 97.4 % prediction accuracy</span>`,
     ]
   },
   {
@@ -844,27 +855,26 @@ const PROJECTS = [
 const CERTS = [
   {
     ico:"🎯",
-    name:"Machine Learning with Python",
-    issuer:"Coursera — IBM",
-    date:"2026",
-    desc:"Supervised learning, classification, regression, model evaluation, and Scikit-learn",
-    url:"https://coursera.org/verify/41NXKDIQND07"
+    name:"Python for Everybody",
+    issuer:"Coursera — University of Michigan",
+    date:"2024",
+    desc:"Core Python programming, data structures, web scraping, databases, and data visualisation.",
+    url:"#"
   },
- 
   {
-    ico:"🤖",
-    name:"AI For All",
-    issuer:"Coursera — AI CERTs",
-    date:"2026",
-    desc:"AI fundamentals, machine learning concepts, and responsible AI applications.",
-    url:"https://coursera.org/verify/F9076YQ34LD2"
-  },
-{
-    ico:"🎯",
+    ico:"📊",
     name:"Machine Learning Specialisation",
     issuer:"Coursera — Andrew Ng",
     date:"2024",
     desc:"Supervised & unsupervised learning, neural networks, decision trees, and best ML practices.",
+    url:"#"
+  },
+  {
+    ico:"⚛️",
+    name:"React — The Complete Guide",
+    issuer:"Udemy",
+    date:"2024",
+    desc:"Hooks, Context API, Redux, React Router, and building full-scale React applications.",
     url:"#"
   },
   {
@@ -876,15 +886,21 @@ const CERTS = [
     url:"#"
   },
   {
-    ico:"📊",
-    name:"Data Analytics using Power BI",
-    issuer:"SmartBridge × VELS Institute of Science, Technology & Advanced Studies",
-    date:"2025",
-    desc:"Interactive dashboards, data visualization, and business intelligence using Power BI."
-
-  }
-  
- 
+    ico:"🗄️",
+    name:"SQL & Databases Bootcamp",
+    issuer:"Udemy",
+    date:"2023",
+    desc:"SQL queries, joins, indexing, normalisation, and relational database design.",
+    url:"#"
+  },
+  {
+    ico:"📈",
+    name:"Power BI Desktop",
+    issuer:"Microsoft Learn",
+    date:"2024",
+    desc:"Data modelling, DAX, interactive dashboards, and business intelligence reporting.",
+    url:"#"
+  },
 ];
 </script>
 
@@ -1029,12 +1045,7 @@ const CERTS = [
 
 /* ── TYPING ────────────────────────────────────────────── */
 (()=>{
-  const words=["software that solves problems 💻",
-"backend systems with Java & Python ⚙️",
-"full-stack web applications 🌐",
-"AI & machine learning solutions 🤖",
-"clean, scalable code 🚀",
-"AI systems that think 🤖","full-stack apps that ship 🚀","ML models that predict 📊","things that matter ✦","poetry between the code 🖋️"];
+  const words=["AI systems that think 🤖","full-stack apps that ship 🚀","ML models that predict 📊","things that matter ✦","poetry between the code 🖋️"];
   let wi=0,ci=0,del=false;
   const el=document.getElementById('typed');
   function go(){
