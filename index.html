@@ -810,7 +810,7 @@ const PROJECTS = [
     ico:"🤖", title:"HireAI — Recruitment Intelligence",
     desc:"An intelligent recruitment web app that predicts candidate selection chances using XGBoost ML model. Flask backend, interactive analytics dashboard, end-to-end pipeline from data ingestion to prediction.",
     tags:["Python","Flask","XGBoost","Scikit-learn","Pandas","Matplotlib","SQLite","JavaScript"],
-    metric:"R² 0.97 accuracy",
+    
     demo:"https://ai-hiring-system-aowd.onrender.com/",
     github:"https://github.com/deepa-m-dev/AI-Hiring-System",
     code:[
@@ -818,8 +818,8 @@ const PROJECTS = [
       `<span class="kw">model</span>.<span class="fn">fit</span>(X_train, y_train)`,
       `<span class="cm"># Grid search for best params</span>`,
       `pred = <span class="kw">model</span>.<span class="fn">predict</span>(X_test)`,
-      `score = <span class="fn">accuracy_score</span>(y_test, pred)`,
-      `<span class="cm"># → 97.4 % prediction accuracy</span>`,
+      `<span class="fn">classification_report</span>(y_test, pred)`,
+`<span class="cm"># Evaluate model performance</span>`,
     ]
   },
   {
@@ -856,26 +856,27 @@ const PROJECTS = [
 const CERTS = [
   {
     ico:"🎯",
-    name:"Python for Everybody",
-    issuer:"Coursera — University of Michigan",
-    date:"2024",
-    desc:"Core Python programming, data structures, web scraping, databases, and data visualisation.",
-    url:"#"
+    name:"Machine Learning with Python",
+    issuer:"Coursera — IBM",
+    date:"2026",
+    desc:"Supervised learning, classification, regression, model evaluation, and Scikit-learn",
+    url:"https://coursera.org/verify/41NXKDIQND07"
   },
+ 
   {
-    ico:"📊",
+    ico:"🤖",
+    name:"AI For All",
+    issuer:"Coursera — AI CERTs",
+    date:"2026",
+    desc:"AI fundamentals, machine learning concepts, and responsible AI applications.",
+    url:"https://coursera.org/verify/F9076YQ34LD2"
+  },
+{
+    ico:"🎯",
     name:"Machine Learning Specialisation",
     issuer:"Coursera — Andrew Ng",
     date:"2024",
     desc:"Supervised & unsupervised learning, neural networks, decision trees, and best ML practices.",
-    url:"#"
-  },
-  {
-    ico:"⚛️",
-    name:"React — The Complete Guide",
-    issuer:"Udemy",
-    date:"2024",
-    desc:"Hooks, Context API, Redux, React Router, and building full-scale React applications.",
     url:"#"
   },
   {
@@ -887,21 +888,15 @@ const CERTS = [
     url:"#"
   },
   {
-    ico:"🗄️",
-    name:"SQL & Databases Bootcamp",
-    issuer:"Udemy",
-    date:"2023",
-    desc:"SQL queries, joins, indexing, normalisation, and relational database design.",
-    url:"#"
-  },
-  {
-    ico:"📈",
-    name:"Power BI Desktop",
-    issuer:"Microsoft Learn",
-    date:"2024",
-    desc:"Data modelling, DAX, interactive dashboards, and business intelligence reporting.",
-    url:"#"
-  },
+    ico:"📊",
+    name:"Data Analytics using Power BI",
+    issuer:"SmartBridge × VELS Institute of Science, Technology & Advanced Studies",
+    date:"2025",
+    desc:"Interactive dashboards, data visualization, and business intelligence using Power BI."
+
+  }
+  
+ 
 ];
 </script>
 
